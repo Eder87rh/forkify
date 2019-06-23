@@ -1,1 +1,19 @@
-export default 'I am an an exported string.';
+import axios from 'axios';
+
+export default class Search {
+  constructor(query) {
+    this.query = query;
+  }
+
+  async getResults() {
+    const key = "6dfafa8e00e40f71b4368d9dd62f9cee";
+    try {
+      const res = await axios(`https://www.food2fork.com/api/search?key=${key}&q=${this.query}`)
+      this.result = res.data.recipes;
+      console.log(this.result);
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+}
