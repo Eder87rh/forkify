@@ -5,14 +5,14 @@ export default class List {
     this.items = [];
   }
 
-  additems (count, unit, ingredient) {
+  addItem (count, unit, ingredient) {
     const item = {
       id: uniqid(),
       count,
       unit,
       ingredient
     }
-    
+
     this.items.push(item);
     return item;
   }
