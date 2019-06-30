@@ -5,8 +5,8 @@ import Likes from './models/Likes';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import { elements, renderLoader, clearLoader } from './views/base';
-import Likes from './models/Likes';
 /***
  * Global state of the app
  * - Search object
@@ -143,10 +143,15 @@ elements.shopping.addEventListener('click', e => {
 /**
  * LIKE CONTROLLER
  */
+// TESTING
+state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumLikes());
+
 const controlLike = () => {
-  if (!state.likes) state.likes == new Likes();
+  if (!state.likes) state.likes = new Likes();
   const currentID = state.recipe.id;
-  
+
+  console.log(state.likes);
   // User has not yet liked current recipe
   if (!state.likes.isLiked(currentID)) {
     // Add like to the state
@@ -157,10 +162,12 @@ const controlLike = () => {
       state.recipe.img
     )
     //Toggle the like button
+    likesView.toggleLikeBtn(true);
 
 
     // Add like to UI list
-    console.log(state.likes);
+    likesView.renderLike(newLike);
+    
 
   // User has liked curret recipe
   } else {
@@ -168,10 +175,13 @@ const controlLike = () => {
     state.likes.deleteLike(currentID);
 
     // Toggle the like button
+    likesView.toggleLikeBtn(false);
 
     // Remove like dorm UI List
-    console.log(state.likes);
+    likesView.deleteLike(currentID);
   }
+
+  likesView.toggleLikeMenu(state.likes.getNumLikes());
 };
 
 
@@ -190,7 +200,7 @@ elements.recipe.addEventListener('click', e => {
   } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
     // Add ingredients to shopping list
     controlList();
-  } else if (e.target.matches('.recipe__love, recipe__love *')) {
+  } else if (e.target.matches('.recipe__love, .recipe__love *')) {
     // Like controller
     controlLike();
   }
